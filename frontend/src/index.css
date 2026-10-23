@@ -1,0 +1,700 @@
+/* SafeWalk — neumorphic (soft UI) theme.
+   One surface colour; depth comes only from a light + dark shadow pair. */
+:root {
+  --bg: #e3e8f0;
+  --hi: #ffffff;
+  --lo: #a8b3c7;
+  --text: #2f3652;
+  --muted: #566080;
+  --accent: #3f4fc4;
+  --ok: #1f7a55;
+  --warn: #8f5a00;
+  --danger: #b32d2d;
+
+  --raise-lg: 10px 10px 22px var(--lo), -10px -10px 22px var(--hi);
+  --raise-md: 6px 6px 14px var(--lo), -6px -6px 14px var(--hi);
+  --raise-sm: 3px 3px 7px var(--lo), -3px -3px 7px var(--hi);
+  --sink-md: inset 5px 5px 10px var(--lo), inset -5px -5px 10px var(--hi);
+  --sink-sm: inset 3px 3px 6px var(--lo), inset -3px -3px 6px var(--hi);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, p, dl, dd, dt, ul { margin: 0; padding: 0; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.shell { max-width: 1080px; margin: 0 auto; padding: 28px 22px 40px; }
+main { margin-top: 28px; }
+
+/* Header */
+.header { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.brand p { color: var(--muted); font-size: 0.875rem; }
+.brand-mark {
+  width: 52px; height: 52px; border-radius: 18px; display: grid; place-items: center;
+  color: var(--accent); box-shadow: var(--raise-md);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px;
+  box-shadow: var(--sink-sm); font-weight: 700; font-size: 0.9rem;
+}
+.pill i { width: 10px; height: 10px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px currentColor; }
+.pill.ok { color: var(--ok); }
+.pill.warn { color: var(--warn); }
+.pill.danger { color: var(--danger); }
+.pill.calm { color: var(--muted); }
+
+/* Layout */
+.grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.stack { display: grid; gap: 28px; }
+@media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+
+/* Surfaces */
+.panel { border-radius: 28px; padding: 28px; box-shadow: var(--raise-lg); display: grid; gap: 16px; }
+.panel h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; }
+.panel.center { justify-items: center; text-align: center; }
+.inset-panel { box-shadow: var(--sink-md); }
+.hint { color: var(--muted); font-size: 0.9rem; max-width: 52ch; }
+.center-text { text-align: center; }
+.ai-text { background: var(--bg); box-shadow: var(--sink-sm); padding: 14px 16px; border-radius: 16px; }
+
+/* Forms */
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+.field { display: grid; gap: 8px; text-align: left; }
+.field > span { font-weight: 700; font-size: 0.875rem; color: var(--muted); }
+.field input, .field select {
+  width: 100%; border: 0; background: var(--bg); box-shadow: var(--sink-md);
+  border-radius: 16px; padding: 14px 16px; min-height: 48px;
+}
+.field input::placeholder { color: #7a84a3; }
+.field input[aria-invalid="true"] { box-shadow: var(--sink-md), 0 0 0 2px var(--danger); }
+.field em { color: var(--danger); font-style: normal; font-size: 0.85rem; font-weight: 600; }
+.error { color: var(--danger); font-weight: 600; }
+.banner { margin-top: 18px; padding: 12px 18px; border-radius: 16px; box-shadow: var(--sink-sm); }
+
+/* Buttons */
+.btn {
+  border: 0; cursor: pointer; background: var(--bg); border-radius: 18px; min-height: 52px;
+  padding: 0 24px; font-weight: 700; box-shadow: var(--raise-md); transition: box-shadow .15s ease, transform .15s ease;
+}
+.btn:hover:not(:disabled) { box-shadow: var(--raise-sm); }
+.btn:active:not(:disabled) { box-shadow: var(--sink-md); transform: scale(0.985); }
+.btn:disabled { cursor: not-allowed; opacity: .55; box-shadow: var(--raise-sm); }
+.btn.primary { color: var(--accent); }
+.btn.danger { color: var(--danger); }
+.btn.quiet { color: var(--muted); box-shadow: none; }
+.btn.quiet:hover:not(:disabled) { box-shadow: var(--raise-sm); }
+.btn.wide { width: 100%; max-width: 360px; }
+.field + .btn.wide, form .btn.wide { max-width: none; }
+
+/* SOS: the signature control — a deep, round, pressable key */
+.sos {
+  width: 132px; height: 132px; border-radius: 50%; border: 0; cursor: pointer; background: var(--bg);
+  box-shadow: var(--raise-lg); display: grid; place-items: center; margin: 6px 0;
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.sos span {
+  width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center;
+  box-shadow: var(--sink-md); color: var(--danger); font-weight: 800; font-size: 1.35rem; letter-spacing: 0.04em;
+}
+.sos:hover:not(:disabled) { box-shadow: var(--raise-md); }
+.sos:active:not(:disabled) { box-shadow: var(--sink-md); transform: scale(0.98); }
+.sos:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Countdown ring */
+.ring { position: relative; width: 240px; height: 240px; border-radius: 50%; box-shadow: var(--raise-lg); display: grid; place-items: center; }
+.ring svg { position: absolute; inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); }
+.ring-track { fill: none; stroke: #d2d9e6; stroke-width: 14; filter: drop-shadow(1px 1px 1px var(--lo)); }
+.ring-bar { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset .25s linear; }
+.ring-bar.calm { stroke: var(--accent); }
+.ring-bar.warn { stroke: #d08a1e; }
+.ring-center {
+  width: 150px; height: 150px; border-radius: 50%; box-shadow: var(--sink-md); display: grid;
+  place-content: center; text-align: center; position: relative;
+}
+.ring-center strong { font-size: 2.25rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1; }
+.ring-center span { font-size: 0.78rem; color: var(--muted); font-weight: 600; max-width: 100px; margin: 2px auto 0; }
+.warn-panel .ring-center strong { color: var(--warn); }
+
+/* Alert panel */
+.alert-badge {
+  width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; font-size: 2rem;
+  font-weight: 800; color: var(--danger); box-shadow: var(--sink-md);
+}
+
+/* Facts + lists */
+.facts { display: grid; gap: 12px; width: 100%; text-align: left; }
+.facts > div { background: var(--bg); box-shadow: var(--sink-sm); border-radius: 16px; padding: 12px 16px; }
+.facts dt { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+.facts dd { font-weight: 600; overflow-wrap: anywhere; }
+.facts small { color: var(--muted); font-weight: 500; display: block; }
+.geo.denied, .geo.unavailable { color: var(--warn); font-weight: 600; }
+.list { list-style: none; display: grid; gap: 12px; }
+.inset-item { box-shadow: var(--sink-sm); border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; }
+.inset-item p { font-size: 0.92rem; }
+.inset-item small { color: var(--muted); }
+.item-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.tag { font-size: 0.78rem; font-weight: 800; padding: 3px 12px; border-radius: 999px; box-shadow: var(--raise-sm); display: inline-block; }
+.tag.simulated { color: var(--danger); }
+.tag.pending { color: var(--warn); }
+.tag.cancelled { color: var(--muted); }
+.tag.failed { color: var(--danger); }
+
+.footer { margin-top: 36px; text-align: center; color: var(--muted); font-size: 0.82rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* SafeWalk UI polish — append to the end of index.css */
+
+/* Cleaner page spacing */
+.shell {
+  max-width: 1160px;
+  padding: 32px 24px 28px;
+}
+
+main {
+  margin-top: 32px;
+}
+
+.grid {
+  gap: 24px;
+}
+
+.stack {
+  gap: 24px;
+}
+
+/* Refined cards while preserving the original soft-blue design */
+.panel {
+  padding: 30px;
+  border-radius: 24px;
+  gap: 18px;
+  box-shadow: 8px 8px 18px var(--lo), -8px -8px 18px var(--hi);
+}
+
+.panel h2 {
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+.hint {
+  line-height: 1.7;
+}
+
+/* Easier-to-use form controls */
+.field {
+  gap: 9px;
+}
+
+.field > span {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.field input,
+.field select {
+  border-radius: 13px;
+  min-height: 50px;
+  padding: 13px 15px;
+  transition: box-shadow 0.18s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  box-shadow: var(--sink-sm), 0 0 0 2px var(--accent);
+}
+
+.field input::placeholder {
+  opacity: 0.8;
+}
+
+/* Clearer buttons and interactions */
+.btn {
+  border-radius: 14px;
+  font-weight: 800;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 5px 12px rgba(63, 79, 196, 0.2);
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #3342ad;
+  box-shadow: 0 7px 16px rgba(63, 79, 196, 0.24);
+  transform: translateY(-1px);
+}
+
+.btn.danger {
+  color: var(--danger);
+}
+
+/* More readable journey details and alert history */
+.facts > div,
+.inset-item {
+  border-radius: 14px;
+}
+
+.facts > div {
+  padding: 14px 16px;
+}
+
+.inset-item {
+  padding: 16px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+/* Emergency button remains prominent */
+.sos {
+  box-shadow: 7px 7px 16px var(--lo), -7px -7px 16px var(--hi);
+}
+
+.sos:focus-visible {
+  outline: 3px solid var(--danger);
+  outline-offset: 5px;
+}
+
+/* Keep the layout comfortable on tablets and phones */
+@media (max-width: 820px) {
+  .shell {
+    padding: 24px 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .stack {
+    gap: 20px;
+  }
+
+  main {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .shell {
+    padding: 18px 14px 24px;
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .brand h1 {
+    font-size: 1.3rem;
+  }
+
+  .panel {
+    padding: 21px 18px;
+    border-radius: 20px;
+    gap: 16px;
+  }
+
+  .panel h2 {
+    font-size: 1.15rem;
+  }
+
+  .btn {
+    min-height: 50px;
+    padding: 0 16px;
+  }
+
+  .ring {
+    width: 210px;
+    height: 210px;
+  }
+
+  .ring-center {
+    width: 132px;
+    height: 132px;
+  }
+
+  .ring-center strong {
+    font-size: 2rem;
+  }
+
+  .footer {
+    margin-top: 26px;
+    line-height: 1.7;
+  }
+}
+
+/* SafeWalk — final UI polish */
+:root {
+  --accent: #4355cf;
+  --bg: #f3f5fb;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top left, #e1e7ff 0%, transparent 42%),
+    #f4f6fb;
+  color: #202744;
+}
+
+.shell {
+  width: min(1120px, 94%);
+  margin: 0 auto;
+  padding: 28px 0 40px;
+}
+
+header {
+  margin-bottom: 28px;
+}
+
+main {
+  gap: 22px;
+}
+
+.panel,
+.card,
+section {
+  border-radius: 20px;
+}
+
+.panel {
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(67, 85, 207, 0.09);
+  box-shadow: 0 12px 36px rgba(36, 48, 100, 0.07);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.panel:hover {
+  box-shadow: 0 16px 42px rgba(36, 48, 100, 0.11);
+}
+
+button {
+  border-radius: 12px;
+  font-weight: 650;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+button:hover {
+  filter: brightness(1.04);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+input,
+select,
+textarea {
+  border-radius: 11px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #6575e8;
+  box-shadow: 0 0 0 3px rgba(67, 85, 207, 0.12);
+}
+
+footer {
+  margin-top: 28px;
+  color: #69718a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .shell {
+    width: 92%;
+    padding-top: 16px;
+  }
+
+  .panel {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  button {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ==========================================
+   SAFEWALK — PERSONAL SAFETY DASHBOARD
+   Visual upgrade: background, cards, controls
+   ========================================== */
+
+:root {
+  --sw-primary: #4658d8;
+  --sw-primary-dark: #3445bb;
+  --sw-ink: #202744;
+  --sw-muted: #737c96;
+  --sw-border: rgba(86, 103, 175, 0.14);
+  --sw-glass: rgba(255, 255, 255, 0.82);
+  --sw-shadow: 0 14px 40px rgba(49, 63, 117, 0.09);
+}
+
+/* A more designed background */
+html {
+  min-height: 100%;
+  background: #f4f6fc;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--sw-ink);
+  background:
+    radial-gradient(
+      ellipse at 5% 5%,
+      rgba(133, 153, 255, 0.24),
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 95% 28%,
+      rgba(178, 154, 255, 0.17),
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(133, 197, 255, 0.15),
+      transparent 38%
+    ),
+    #f5f7fc;
+  background-attachment: fixed;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Subtle background grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(79, 98, 170, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 98, 170, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+/* Main dashboard width and breathing room */
+.shell {
+  width: min(1120px, 93%);
+  margin-inline: auto;
+  padding: 30px 0 42px;
+  position: relative;
+}
+
+/* Header separation */
+.shell > header {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* A small brand accent beneath the header */
+.shell > header::after {
+  content: "";
+  display: block;
+  width: 58px;
+  height: 4px;
+  margin-top: 15px;
+  border-radius: 99px;
+  background: linear-gradient(
+    90deg,
+    var(--sw-primary),
+    #9b8af5
+  );
+}
+
+/* Dashboard cards */
+.panel,
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--sw-border);
+  border-radius: 21px;
+  background: var(--sw-glass);
+  box-shadow: var(--sw-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+/* Decorative highlight on cards */
+.panel::before,
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(70, 88, 216, 0.55),
+    rgba(155, 138, 245, 0.12),
+    transparent
+  );
+}
+
+.panel:hover,
+.card:hover {
+  border-color: rgba(86, 103, 210, 0.25);
+  box-shadow: 0 19px 48px rgba(49, 63, 117, 0.13);
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+  color: var(--sw-ink);
+  letter-spacing: -0.035em;
+}
+
+p {
+  line-height: 1.7;
+}
+
+.hint {
+  margin-top: 10px;
+  color: var(--sw-muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+/* Form controls */
+input,
+select,
+textarea {
+  border: 1px solid var(--sw-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--sw-ink);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--sw-primary);
+  box-shadow: 0 0 0 4px rgba(70, 88, 216, 0.11);
+}
+
+/* Buttons */
+button {
+  border-radius: 12px;
+  font-weight: 650;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+button:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 7px 17px rgba(56, 73, 180, 0.13);
+}
+
+button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(70, 88, 216, 0.35);
+  outline-offset: 3px;
+}
+
+/* Footer */
+.shell > footer {
+  margin-top: 28px;
+  padding: 17px 20px;
+  border: 1px solid var(--sw-border);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--sw-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* Mobile layout */
+@media (max-width: 640px) {
+  .shell {
+    width: 92%;
+    padding-top: 19px;
+  }
+
+  .shell > header {
+    margin-bottom: 21px;
+  }
+
+  .panel,
+  .card {
+    border-radius: 17px;
+  }
+
+  button {
+    min-height: 43px;
+  }
+
+  body::before {
+    background-size: 25px 25px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
