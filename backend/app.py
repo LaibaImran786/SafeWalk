@@ -2,7 +2,9 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
+import streamlit as st
 
+api_key = st.secrets["GEMINI_API_KEY"]
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,7 +28,8 @@ async def lifespan(_: FastAPI):
 app = FastAPI(title="SafeWalk API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173","https://safewalk-iota.vercel.app"],
+        allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

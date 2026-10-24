@@ -1,5 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || "";
-
+const BASE = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 function describe(detail) {
   if (!detail) return null;
   if (typeof detail === "string") return detail;
