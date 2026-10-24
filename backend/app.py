@@ -2,7 +2,6 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
-import streamlit as st
 
 api_key = st.secrets["GEMINI_API_KEY"]
 from dotenv import load_dotenv
