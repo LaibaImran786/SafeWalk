@@ -2,8 +2,12 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
+import os
 
-api_key = st.secrets["GEMINI_API_KEY"]
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    raise RuntimeError("GEMINI_API_KEY is not configured")
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
